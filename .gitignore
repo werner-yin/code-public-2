@@ -1,0 +1,9 @@
+*.in
+*.out
+*.txt
+*.in?
+*.out?
+*.txt?
+*.cpp~
+*.ans
+*.ans?

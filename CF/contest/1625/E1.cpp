@@ -30,7 +30,8 @@ template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 const int N = 3e5 + 10;
 
 char s[N];
-int bel[N], id[N], n, ndn, q, rt, mat[N], res[N], pres[N];
+int bel[N], id[N], n, ndn, q, rt, mat[N];
+ll res[N], pres[N];
 
 int build(int l, int r) {
 	int x = ++ndn; bel[l] = x; bel[r] = x; l++; r--;

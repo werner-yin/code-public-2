@@ -87,7 +87,7 @@ int main() {
 		if(t == 1) {
 			seg :: upd(l, node());
 			if(fa[bel[l]])
-				deg[fa[bel[l]]]--, seg :: upd(pl[fa[bel[l]]], node(deg[fa[bel[l]]] * (deg[fa[bel[l]]] - 1) / 2 + 1, dep[bel[l]] - 1, 1 ));
+				deg[fa[bel[l]]]--, seg :: upd(pl[fa[bel[l]]], node(1ll * deg[fa[bel[l]]] * (deg[fa[bel[l]]] - 1) / 2 + 1, dep[bel[l]] - 1, 1 ));
 		} else {
 			node v = seg :: query(l, r);
 			ll ans = v.val + 1ll * v.cnt * (v.cnt - 1) / 2;

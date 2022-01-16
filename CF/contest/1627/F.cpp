@@ -28,58 +28,36 @@ template < typename T > void chkmax(T &x, const T &y) { x = x > y ? x : y; }
 template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 
 const int N = 1e6 + 10;
-const int T = 501;
+const int T = 510;
 const int INF = 1e9;
 
 int n, K;
-int lup[T][T], lus[T][T], ldp[T][T], lds[T][T], tot[T];
-int f[T][T];
+int lu[T][T], lr[T][T], tot[T];
+int dis[T][T];
 int a[N], b[N], c[N], d[N];
-
-int tsolve() {
-	map < pii, bool > hav[T][T];
-	rep(i, 1, n) 
-		hav[a[i]][b[i]][{ c[i], d[i] }] = true;
-	rep(i, 0, K) rep(j, 0, K + 1) lup[i][j] = lus[i][j] = ldp[i][j] = lds[i][j] = 0;
-	rep(i, 0, K) tot[i] = 0;
-	rep(i, 1, n) if(a[i] == c[i]) tot[a[i]]++;
-	rep(i, 1, K) rep(j, 1, K) {
-		lup[i][j] = lup[i][j - 1] + hav[i][j][{ i - 1, j }];
-	}
-	rep(i, 1, K) per(j, K, 1) {
-		lus[i][j] = lus[i][j + 1] + hav[i][j][{ i - 1, j }];
-	}
-	per(i, K, 1) rep(j, 1, K) {
-		ldp[i][j] = ldp[i][j - 1] + hav[i][j][{ i + 1, j }];
-	}
-	per(i, K, 1) per(j, K, 1) {
-		lds[i][j] = lds[i][j + 1] + hav[i][j][{ i + 1, j }];
-	}
-	rep(i, 0, K) rep(j, 0, K) f[i][j] = -INF;
-	f[0][0] = 0; int res = 0;
-	rep(i, 1, K / 2) {
-		rep(k, 1, K) {
-			int rv = tot[i] - hav[i][k][{ i, k + 1 }] + tot[K - i + 1] - hav[K - i + 1][K - k + 1][{K - i + 1, K - k}];
-			rep(j, 0, K) if(f[i - 1][j] >= 0) {
-				chkmax(f[i][k],
-					   f[i - 1][j] + rv + lup[i][min(k, j)] + lus[i][max(k, j) + 1]
-					   + ldp[K - i + 1][min(K - k + 1, K - j + 1)] + lds[K - i + 1][max(K - k + 1, K - j + 1) + 1]
-					   );
-			}
-		}
-	}
-	rep(i, 1, K) chkmax(res, f[K / 2][i] + ldp[K / 2][i] + lds[K / 2][i + 1]);
-	return res;
-}
 
 void solve() {
 	n = in, K = in;
 	rep(i, 1, n) {
 		a[i] = in, b[i] = in, c[i] = in, d[i] = in;
 	}
-	int ans = tsolve();
-	rep(i, 1, n) swap(a[i], b[i]), swap(c[i], d[i]);
-	chkmax(ans, tsolve()); printf("%d\n", ans);
+	rep(i, 0, K + 1) rep(j, 0, K + 1) lu[i][j] = lr[i][j] = 0;
+	rep(i, 1, n)
+		if(a[i] == c[i]) 
+			(b[i] > d[i]) && (swap(b[i], d[i]), 1), lr[a[i]][b[i]]++, lr[K - a[i] + 1][K - d[i] + 1]++;
+		else 
+			(a[i] > c[i]) && (swap(a[i], c[i]), 1), lu[c[i]][b[i]]++, lu[K - a[i] + 1][K - b[i] + 1]++;
+	rep(i, 0, K + 1) rep(j, 0, K + 1) dis[i][j] = INF;
+	dis[1][1] = 0; priority_queue < pair < int, pii >, vector < pair < int, pii > >, greater < pair < int, pii > > > q; q.ep(dis[1][1], pii(1, 1));
+	while(q.size()) {
+		auto v = q.top(); q.pop(); int d = v.fi, x, y; tie(x, y) = v.se;
+		if(dis[x][y] != d) continue;
+		if(x > 1 && dis[x][y] + lr[x - 1][y - 1] < dis[x - 1][y]) q.ep(dis[x - 1][y] = dis[x][y] + lr[x - 1][y - 1], pii(x - 1, y));
+		if(x < K && dis[x][y] + lr[x][y - 1] < dis[x + 1][y]) q.ep(dis[x + 1][y] = dis[x][y] + lr[x][y - 1], pii(x + 1, y));
+		if(y < K && dis[x][y] + lu[x][y] < dis[x][y + 1]) q.ep(dis[x][y + 1] = dis[x][y] + lu[x][y], pii(x, y + 1));
+		if(y > 1 && dis[x][y] + lu[x][y - 1] < dis[x][y - 1]) q.ep(dis[x][y - 1] = dis[x][y] + lu[x][y - 1], pii(x, y - 1));
+	}
+	printf("%d\n", n - dis[K / 2 + 1][K / 2 + 1]);
 }
 
 int main() {

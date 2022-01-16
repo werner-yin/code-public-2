@@ -64,21 +64,6 @@ void solve() {
 		int u = in, v = in;
 		G[u].eb(v); G[v].eb(u);
 	}
-	//cerr << x << " " << g[x] << " " << ans[x] << endl;
-	g[x] |= c[x];
-	top = 0; for(auto y : G[x]) if(y ^ p) stk[++top] = y;
-	pcan[0] = scan[top + 1] = 0;
-	rep(i, 1, top) pcan[i] = pcan[i - 1] | (siz[stk[i]] >= 2 && f[stk[i]]) | c[stk[i]];
-	per(i, top, 1) scan[i] = scan[i + 1] | (siz[stk[i]] >= 2 && f[stk[i]]) | c[stk[i]];
-	rep(i, 1, top) g[stk[i]] = (tot - siz[stk[i]] >= 2 && (pcan[i - 1] | scan[i + 1] | g[x])) || c[x];
-	for(auto y : G[x]) if(y ^ p) rdfs(y, x);
-}
-
-void solve() {
-	n = in; tot = 0; rep(i, 1, n) c[i] = in, tot += c[i], f[i] = g[i] = h[i] = ans[i] = 0;
-	rep(i, 1, n) G[i].clear();
-	rep(i, 2, n) {
-		int u = in, v = in;
 	dfs(1, 0); rdfs(1, 0); rep(i, 1, n) printf("%d ", ans[i]);
 	puts("");
 }

@@ -27,65 +27,34 @@ template < typename T > T read() {
 template < typename T > void chkmax(T &x, const T &y) { x = x > y ? x : y; }
 template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 
-const int N = 1e6 + 10;
-const int T = 501;
-const int INF = 1e9;
+const int N = 1e7 + 10;
+const int M = 12252240;
+const int mod = 998244353;
 
-int n, K;
-int lup[T][T], lus[T][T], ldp[T][T], lds[T][T], tot[T];
-int f[T][T];
-int a[N], b[N], c[N], d[N];
-
-int tsolve() {
-	map < pii, bool > hav[T][T];
-	rep(i, 1, n) 
-		hav[a[i]][b[i]][{ c[i], d[i] }] = true;
-	rep(i, 0, K) rep(j, 0, K + 1) lup[i][j] = lus[i][j] = ldp[i][j] = lds[i][j] = 0;
-	rep(i, 0, K) tot[i] = 0;
-	rep(i, 1, n) if(a[i] == c[i]) tot[a[i]]++;
-	rep(i, 1, K) rep(j, 1, K) {
-		lup[i][j] = lup[i][j - 1] + hav[i][j][{ i - 1, j }];
-	}
-	rep(i, 1, K) per(j, K, 1) {
-		lus[i][j] = lus[i][j + 1] + hav[i][j][{ i - 1, j }];
-	}
-	per(i, K, 1) rep(j, 1, K) {
-		ldp[i][j] = ldp[i][j - 1] + hav[i][j][{ i + 1, j }];
-	}
-	per(i, K, 1) per(j, K, 1) {
-		lds[i][j] = lds[i][j + 1] + hav[i][j][{ i + 1, j }];
-	}
-	rep(i, 0, K) rep(j, 0, K) f[i][j] = -INF;
-	f[0][0] = 0; int res = 0;
-	rep(i, 1, K / 2) {
-		rep(k, 1, K) {
-			int rv = tot[i] - hav[i][k][{ i, k + 1 }] + tot[K - i + 1] - hav[K - i + 1][K - k + 1][{K - i + 1, K - k}];
-			rep(j, 0, K) if(f[i - 1][j] >= 0) {
-				chkmax(f[i][k],
-					   f[i - 1][j] + rv + lup[i][min(k, j)] + lus[i][max(k, j) + 1]
-					   + ldp[K - i + 1][min(K - k + 1, K - j + 1)] + lds[K - i + 1][max(K - k + 1, K - j + 1) + 1]
-					   );
-			}
-		}
-	}
-	rep(i, 1, K) chkmax(res, f[K / 2][i] + ldp[K / 2][i] + lds[K / 2][i + 1]);
-	return res;
-}
-
-void solve() {
-	n = in, K = in;
-	rep(i, 1, n) {
-		a[i] = in, b[i] = in, c[i] = in, d[i] = in;
-	}
-	int ans = tsolve();
-	rep(i, 1, n) swap(a[i], b[i]), swap(c[i], d[i]);
-	chkmax(ans, tsolve()); printf("%d\n", ans);
-}
+int f[M], a[N], n, K, TM;
+ll qp(ll x, int t = mod - 2) { ll res = 1; for(; t; t >>= 1, x = x * x % mod) if(t & 1) res = res * x % mod; return res; }
 
 int main() {
 #ifndef ONLINE_JUDGE
 	freopen("1.in", "r", stdin);
 #endif
-	for(int T = in; T; T--) solve();
+	n = in; a[0] = in; int x = in, y = in; K = in, TM = in;
+	rep(i, 1, n - 1) 
+		a[i] = (1ll * a[i - 1] * x % TM + y) % TM;
+	int ans = 0;
+	int p1 = qp(n), p2 = 1ll * p1 * (n - 1) % mod, p3 = 1ll * p1 * K % mod;
+	rep(i, 0, n - 1) {
+		int lef = a[i] % M;
+		ans = (ans + 1ll * (a[i] - lef) * p3 % mod) % mod;
+		f[lef]++;
+	}
+	rep(_, 1, K) {
+		rep(i, 0, M - 1) if(f[i]) {
+			ans = (ans + 1ll * f[i] * p1 % mod * i % mod) % mod;
+			int lst = f[i]; f[i] = 1ll * f[i] * p2 % mod;
+			int v = i - i % _;
+			f[v] = (f[v] + 1ll * lst * p1 % mod) % mod;
+		}
+	} printf("%lld\n", ans * qp(n, K) % mod);
 	return 0;
 }

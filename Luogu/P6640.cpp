@@ -33,7 +33,7 @@ char s[N], t[N], ts[N];
 int n, m, pmn[N], smn[N], val[N];
 int cnt[N], sa[N], rk[N], ork[N], px[N], id[N], ht[N];
 
-int getSA(char *s, int len) {
+void getSA(char *s, int len) {
 	int n = len, m = 300;
 	rep(i, 1, m) cnt[i] = 0;
 	rep(i, 1, n) ++cnt[rk[i] = s[i]];
@@ -54,7 +54,7 @@ int getSA(char *s, int len) {
 		if(p) p--;
 		while(s[i + p] == s[sa[rk[i] - 1] + p]) p++;
 		ht[rk[i]] = p;
-	} //rep(i, 1, n) cerr << ht[i] << endl;
+	} //rep(i, 1, n) cerr << sa[i] << " " << ht[i] << endl;
 }
 
 int lg[N], pw[30], mx[21][N];
@@ -82,8 +82,8 @@ int main() {
 	per(i, n + m + 1, 1) {
 		smn[i] = smn[i + 1];
 		if(sa[i] > n + 1) smn[i] = n + m + 1 - sa[i] + 1;
-		else chkmin(smn[i], ht[i]);
-	} rep(i, 1, n) val[i] = min(pmn[rk[i]], smn[rk[i]]);
+		else chkmin(smn[i], ht[i + 1]);
+	} rep(i, 1, n) val[i] = max(pmn[rk[i]], smn[rk[i]]);//, cerr << val[i] << " " ;
 	initST(val, n); int Q = in;
 	while(Q--) {
 		int l = in, r = in, L = 0, R = min(m, r - l + 1), ans = 0;

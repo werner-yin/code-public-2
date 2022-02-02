@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "climits": "cpp",
+        "cfloat": "cpp",
+        "cerrno": "cpp",
+        "csignal": "cpp",
+        "cstring": "cpp",
+        "cwchar": "cpp",
+        "cwctype": "cpp",
+        "ctime": "cpp",
+        "cstdio": "cpp"
+    }
+}

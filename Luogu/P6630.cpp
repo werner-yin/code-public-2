@@ -36,7 +36,7 @@ int n, K, iv, ans;
 ll qp(ll x, int t) { ll res = 1; for(; t; t >>= 1, x = x * x % mod) if(t & 1) res = res * x % mod; return res; }
 
 struct node {
-	int a, b, c; // a : 不交, b : 被包含, c : 不包含但是有交
+	int a, b, c; // a : 不交, b : 被包含, c : 不被包含但是有交
 	node(int l, int r) {
 		a = (1ll * l * (l - 1) / 2 % mod * iv % mod + 1ll * (n - r + 1) * (n - r) / 2 % mod * iv % mod) % mod;
 		b = 1ll * l * (n - r + 1) % mod * iv % mod;
@@ -59,19 +59,23 @@ struct mat {
 	
 void solve(int l, int r, const node &lst) {
 	t = mat(); node c(l, r);
-	ll A = lst.a, B = lst.b, C = (c.a - lst.a + mod) % mod, E = (c.b - lst.b + mod) % mod, D = (1ll - A - B - C - E + mod * 4ll) % mod;
+	ll A = lst.a, B = lst.b, C = (c.a - lst.a + mod) % mod, D = (c.b - lst.b + mod) % mod, E = (1ll - A - B - C - D + mod * 4ll) % mod;
+	
+	//A = A * qp(iv, mod - 2) % mod; B = B * qp(iv, mod - 2) % mod; C = C * qp(iv, mod - 2) % mod;
+	//D = D * qp(iv, mod - 2) % mod; E = E * qp(iv, mod -2) % mod;
 	//cerr << A << " " << B << " " << C << " " << D << " " << E << " | " << l << " " << r << endl;
-	/*
-	t[0][0] = (A + C + D) % mod; t[0][1] = E; t[0][2] = B;
-	t[1][0] = D; t[1][1] = (A + C + E) % mod; t[1][2] = B;
-	t[2][0] = D; t[2][1] = (C + E) % mod; t[2][2] = (A + B) % mod;
-	*/
-	t[0][0] = (A + C + D) % mod; t[0][1] = E;                 t[0][2] = B;
-	t[1][0] = D;                 t[1][1] = (A + C + E) % mod;                              t[1][3] = B;
-	t[2][0] = D;                 t[2][1] = E;                 t[2][2] = (A + B + C) % mod; 
-	t[3][0] = D;                 t[3][1] = E;                 t[3][2] = C;                 t[3][3] = (A + B) % mod;
+	
+	t[0][0] = (A + C + E) % mod; t[0][1] = D;                 t[0][2] = B;
+	t[1][0] = E;                 t[1][1] = (A + C + D) % mod;                              t[1][3] = B;
+	t[2][0] = E;                 t[2][1] = (C + D) % mod;     t[2][2] = (A + B) % mod; 
+	t[3][0] = E;                 t[3][1] = (C + D) % mod;     t[3][2] = 0;                 t[3][3] = (A + B) % mod;
+	
+	//t[0][0] = (A + C) % mod; t[2][0] = E;
+	//t[1][1] = (A + C) % mod; t[2][1] = D; t[2][2] = 1;
 	mat res = t; for(int v = K - 1; v; v >>= 1, t = t * t) if(v & 1) res = res * t;
+	//assert(((ll)res[0][0] + res[0][1] + res[0][2] + res[0][3]) % mod == 1);
 	ans = (ans + res[0][1]) % mod; ans = (ans + res[0][3]) % mod;
+	//cerr << (res[0][1] + res[0][3]) % mod << endl;
 	if(l == r) return; int mid = in; solve(l, mid, c); solve(mid + 1, r, c);
 }
 
@@ -80,6 +84,5 @@ int main() {
 	freopen("1.in", "r", stdin);
 #endif
 	n = in, K = in; iv = qp(1ll * n * (n + 1) / 2 % mod, mod - 2);
-	solve(1, n, node(0, 0, 1));
-	printf("%d\n", ans); return 0;
+	solve(1, n, node(0, 0, 1)); printf("%d\n", ans); return 0;
 }

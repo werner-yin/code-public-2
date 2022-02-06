@@ -6,7 +6,7 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 
 | $\checkmark$ |  ❌   | $\circ$ | 总量  | 剩余 |
 | :----------: | :--: | :-----: | :---: | :--: |
-|     $61$     | $4$  |  $13$   | $135$ | $57$ |
+|     $62$     | $4$  |  $13$   | $135$ | $56$ |
 
 **画饼**：
 
@@ -43,7 +43,7 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 |     BJOI 2019      | $\checkmark$ |      ❌       |              | $\checkmark$ | $\checkmark$ | $\checkmark$ |
 |     JSOI 2019      |              |              |              |              |              |              |
 |   ~~TJOI 2019~~    |   $\circ$    |   $\circ$    |   $\circ$    |   $\circ$    | $\checkmark$ | $\checkmark$ |
-|     SDOI 2019      |   $\circ$    |              |              | $\checkmark$ |              | $\checkmark$ |
+|     SDOI 2019      |   $\circ$    |              | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |
 |   GXOI/GZOI 2019   | $\checkmark$ |              |              |   $\circ$    | $\checkmark$ | $\checkmark$ |
 |   ~~SNOI 2019~~    |   $\circ$    | $\checkmark$ | $\checkmark$ |   $\circ$    |   $\circ$    |      ❌       |
 |     ZJOI 2018      |              |      ❌       |              |              |              |              |

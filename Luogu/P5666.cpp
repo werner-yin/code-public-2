@@ -52,7 +52,7 @@ void rdfs(int x, int p) {
 	st[0][x] = son[x]; rep(i, 1, K) st[i][x] = st[i - 1][st[i - 1][x]];
 }
 
-bool check(int x, int tsiz) { return max(tsiz - siz[x], son[x]) <= tsiz / 2; }
+bool check(int x, int tsiz) { return max(tsiz - siz[x], siz[son[x]]) <= tsiz / 2; }
 
 int calcdn(int x) {
 	int tsiz = siz[x];
@@ -68,8 +68,10 @@ int calcup(int x) {
 	if(son[x] != lx) x = son[x];
 	res += (max(tsiz - siz[x], siz[tson[x]]) <= tsiz / 2 ? x : 0) +
 		(max(tsiz - siz[fa[x]], siz[son[fa[x]]] - lsiz) <= tsiz / 2 ? fa[x] : 0);
+	cerr << lx << " " << x << endl;
 	int tlx = x; x = tson[x]; 
 	per(i, K, 0) if(st[i][x] && siz[st[i][x]] >= tsiz / 2) x = st[i][x];
+	cerr << lx << " " << x << endl;
 	res += (max(tsiz - siz[x], siz[son[x]]) <= tsiz / 2 ? x : 0) +
 		(fa[x] != tlx && max(tsiz - siz[fa[x]], siz[son[x]]) <= tsiz / 2 ? fa[x] : 0);
 	return res;
@@ -78,7 +80,7 @@ int calcup(int x) {
 void vdfs(int x, int p) {
 	if(x != 1) {
 		ans += calcdn(x); ans += calcup(x);
-		//		cerr << calcdn(x) << " " << calcup(x) << " " << x << endl;
+		//cerr << calcdn(x) << " " << calcup(x) << " " << x << endl;
 	}
 	for(auto y : G[x]) if(y ^ p) vdfs(y, x);
 }

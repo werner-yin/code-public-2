@@ -28,7 +28,7 @@ template < typename T > void chkmax(T &x, const T &y) { x = x > y ? x : y; }
 template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 
 const int N = 1e6 + 10;
-const int K = 20;
+const int K = 18;
 
 int n, siz[N], st[K + 1][N], dfn[N], R[N], tim, son[N], tson[N], top, stk[N], fa[N], vson[N], vsiz[N];
 ll ans;
@@ -48,7 +48,7 @@ void dfs(int x, int p) {
 bool check(int x, int tsiz) { return max(tsiz - vsiz[x], vsiz[vson[x]]) <= tsiz / 2; }
 
 int calcdn(int x, int tsiz) {
-	per(i, K, 0) if(st[i][x] && vsiz[st[i][x]] >= tsiz / 2) x = st[i][x];
+	per(i, K, 0) if(st[i][x] && tsiz - vsiz[st[i][x]] <= tsiz / 2) x = st[i][x];
 	return (check(x, tsiz) ? x : 0) + (check(fa[x], tsiz) ? fa[x] : 0) + (check(vson[x], tsiz) ? vson[x] : 0);
 }
 
@@ -57,11 +57,11 @@ void vdfs(int x, int p) {
 			vsiz[x] = n - siz[y]; vson[x] = son[x] == y ? tson[x] : son[x];
 			if(vsiz[p] > vsiz[vson[x]]) vson[x] = p;
 			st[0][x] = vson[x]; rep(i, 1, K) st[i][x] = st[i - 1][st[i - 1][x]];
-			ans += calcdn(y, vsiz[y]); ans += calcdn(x, vsiz[x]);
-			cerr << calcdn(y, vsiz[y]) << " " << vson[x] << " " << tson[x] << " " << calcdn(x, vsiz[x]) << " " << y << endl;
-			vdfs(y, x);
+			fa[y] = 0; fa[x] = 0; ans += calcdn(y, vsiz[y]); ans += calcdn(x, vsiz[x]);
+			//cerr << calcdn(y, vsiz[y]) << " " << calcdn(x, vsiz[x]) << " " << y << endl;
+			fa[x] = y; vdfs(y, x); fa[y] = x;
 		}
-	vsiz[x] = siz[x]; vson[x] = son[x];
+	fa[x] = p; vsiz[x] = siz[x]; vson[x] = son[x];
 	st[0][x] = vson[x]; rep(i, 1, K) st[i][x] = st[i - 1][st[i - 1][x]];
 }
 
@@ -76,9 +76,7 @@ void solve() {
 }
 
 int main() {
-#ifndef ONLINE_JUDGE
-	freopen("1.in", "r", stdin);
-#endif
+	freopen("centroid.in", "r", stdin); freopen("centroid.out", "w", stdout);
 	for(int T = in; T; T--) solve();
 	return 0;
 }

@@ -30,9 +30,9 @@ template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 const int N = 3010;
 const int mod = 59393;
 
-int n, K, a[N], f[N * 12][N << 1], deg[N], s[N], tot;
+int n, K, a[N], f[N][N << 1], deg[N], s[N], tot;
 veg al;
-pii pre[N * 12][N << 1];
+pii pre[N][N << 1];
 
 int calc(int x) {
 	ll res = 0; per(i, K, 0) res = (res * x + a[i]) % mod;
@@ -53,6 +53,7 @@ int main() {
 	freopen("1.in", "r", stdin);
 #endif
 	n = in, K = in; rep(i, 0, K) a[i] = in;
+	if(n == 1) return printf("0 %d\n", calc(0)), 0;
 	memset(f, 0xcf, sizeof f); f[0][0] = 0;
 	rep(i, 1, n - 2) 
 		tcalc(f[i], f[i - 1], pre[i], i);
@@ -66,11 +67,11 @@ int main() {
 	assert(tot <= n);
 	rep(i, 1, n) deg[i]++;
 	set < pii > q;
-	printf("%d %d\n", n - 1, f[n - 2][n - 2]);
+	printf("%d %d\n", n - 1, f[n - 2][n - 2] + calc(1) * (n - tot));
 	rep(i, 1, n) q.ep(deg[i], i);
 	rep(i, 1, n - 1) {
 		auto x = *q.rbegin(); q.erase(--q.end());
-		auto y = *q.rbegin(); q.erase(--q.end());
+		auto y = *q.begin(); q.erase(q.begin());
 		printf("%d %d\n", x.se, y.se);
 		x.fi--; y.fi--; if(x.fi) q.ep(x); if(y.fi) q.ep(y);
 	}

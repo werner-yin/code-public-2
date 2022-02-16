@@ -56,39 +56,32 @@ using trie :: dep;
 
 struct edge { int v, w, nxt; } e[N * 10];
 int h[N], cnt, a[N], b[N], c[N], d[N], stk[N], top;
-int toid[N], outid[N], ps[N], ss[N], tal[N], outal[N];
+int toid[N], outid[N], ps[N], ss[N];
 vec tG[N];
 bool vis[N];
 ll dis[N], ans[N];
 
-void link(int x, int y, int w) { /*cerr << "LINK : " << x << " " << y << " " << w << endl, */e[++cnt] = (edge) { y, w, h[x] }; h[x] = cnt; }
+void link(int x, int y, int w) { e[++cnt] = (edge) { y, w, h[x] }; h[x] = cnt; }
 
 void dfs(int x) {
 	toid[x] = ++tot; outid[x] = ++tot;
-	for(auto y : tG[x]) /*cerr << x << "->" << y << endl, */dfs(y);
-	//cerr << "X" << toid[x] << " " << outid[x] << endl;
+	for(auto y : tG[x]) dfs(y);
 	top = 0; for(auto y : tG[x]) stk[++top] = y; // stk is not using
-	//cerr << "PRE: " << endl;
-	rep(i, 1, top) {
+	rep(i, 1, top) 
 		if(i == 1) ps[i] = toid[stk[i]];
 		else ps[i] = ++tot, link(ps[i], ps[i - 1], 0), link(ps[i], toid[stk[i]], 0);
-	}
-	//cerr << "SUF: " << endl;
-	per(i, top, 1) {
+	per(i, top, 1)
 		if(i == top) ss[i] = toid[stk[i]];
 		else ss[i] = ++tot, link(ss[i], ss[i + 1], 0), link(ss[i], toid[stk[i]], 0);
-	} //tal[x] = ss[1]; outal[x] = ++tot;
-	//cerr << "FUF: " << endl;
 	rep(i, 1, top) {
 		if(i > 1) link(outid[stk[i]], ps[i - 1], dep[x] * 2);
 		if(i < top) link(outid[stk[i]], ss[i + 1], dep[x] * 2);
 		link(outid[stk[i]], outid[x], 0); link(toid[x], toid[stk[i]], 0);
-		link(outid[stk[i]], outal[x], 0);
-	} //cerr << "END |" << endl;
+	} 
 }
 
 void clr(int x) {
-	for(auto y : tG[x]) dfs(y);
+	for(auto y : tG[x]) clr(y);
 	tG[x].clear(); toid[x] = outid[x] = 0;
 }
 
@@ -109,12 +102,11 @@ void solve() {
 	trie :: init(); for(auto v : G[1]) link(m + 1, v, c[v]);
 	rep(x, 1, n) {
 		if(!R[x].size() || !G[x].size()) continue;
-		//cerr << "!" << x << endl;
 		vector < int > pot; 
-		for(auto v : R[x]) pot.eb(d[v]);
-		for(auto v : G[x]) pot.eb(d[v]);
+		for(auto v : R[x]) pot.eb(d[v]); for(auto v : G[x]) pot.eb(d[v]);
 		sort(pot.begin(), pot.end(), [](auto x, auto y) { return dfn[x] < dfn[y]; });
-		pot.resize(unique(pot.begin(), pot.end()) - pot.begin()); stk[top = 1] = 1;
+		pot.resize(unique(pot.begin(), pot.end()) - pot.begin());
+		stk[top = 1] = 1;
 		for(auto y : pot) {
 			if(y == 1) continue; int l = lca(y, stk[top]);
 			while(top > 1 && dep[l] <= dep[stk[top - 1]]) tG[stk[top - 1]].eb(stk[top]), top--;
@@ -131,9 +123,6 @@ void solve() {
 }
 
 int main() {
-#ifndef ONLINE_JUDGE
-	freopen("1.in", "r", stdin);
-#endif
 	for(int T = in; T; T--) solve();
 	return 0;
 }

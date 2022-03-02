@@ -6,7 +6,7 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 
 | $\checkmark$ |  ❌   | $\circ$ | 总量  | 剩余 |
 | :----------: | :--: | :-----: | :---: | :--: |
-|     $64$     | $4$  |  $13$   | $135$ | $54$ |
+|     $64$     | $5$  |  $13$   | $135$ | $53$ |
 
 **画饼**：
 
@@ -54,7 +54,7 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 | ~~九省联考 2018~~  | $\checkmark$ | $\checkmark$ | $\checkmark$ |      /       |      /       |      /       |
 |   八省联考 2018    |              |              |              |      /       |      /       |      /       |
 | ~~HNOI/AHOI 2018~~ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
-|     BJOI 2018      | $\checkmark$ | $\checkmark$ |              | $\checkmark$ | $\checkmark$ |              |
+|     BJOI 2018      | $\checkmark$ | $\checkmark$ |      ❌       | $\checkmark$ | $\checkmark$ |              |
 |   ~~CQOI 2018~~    | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
 |   ~~HAOI 2018~~    | $\checkmark$ | $\checkmark$ |      ❌       | $\checkmark$ | $\checkmark$ |      /       |
 |     JSOI 2018      | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |              |   $\circ$    |

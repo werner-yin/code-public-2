@@ -35,8 +35,10 @@ struct node {
 	int a, b, c, d;
 } val[N << 2];
 
-ll pw, sum;
-int n, m;
+ll pw, sum, ipw[N];
+int n, m, tg[N << 2];
+
+//ll qp(ll x, int t) { ll res = 1; for(; t; t >>= 1, x = x * x % mod) if(t & 1) res = res * x % mod; return res; }
 
 node operator + (node a, node b) {
 	node c;
@@ -55,14 +57,26 @@ void build(int o = 1, int l = 1, int r = n) {
 	build(o << 1, l, mid); build(o << 1 | 1, mid + 1, r);
 }
 
+void pt(int o, int v) {
+	tg[o] += v;
+	int s = (val[o].a + val[o].b) % mod; val[o].a = 1ll * val[o].a * ipw[v] % mod;
+	val[o].b = (s - val[o].a + mod) % mod;
+	s = (val[o].c + val[o].d) % mod; val[o].c = 1ll * val[o].c * ipw[v] % mod;
+	val[o].d = (s - val[o].c + mod) % mod;
+}
+
+void pd(int o) {
+	if(tg[o]) pt(o << 1, tg[o]), pt(o << 1 | 1, tg[o]), tg[o] = 0;
+}
+
 void upd(int xl, int xr, int lst, int o = 1, int l = 1, int r = n) {
 	int cur = stu(xl, xr, l, r);
 	if(lst == 1) { // tp 2: lst = 1, cur = 1
-		assert(cur == 1); node tval; tval.b = (val[o].b + val[o].a) % mod; tval.a = 0; tval.d = (val[o].d + val[o].c) % mod; tval.c = 0;
-		val[o] = val[o] + tval; //return;
+		node tval; tval.b = (val[o].b + val[o].a) % mod; tval.a = 0; tval.d = (val[o].d + val[o].c) % mod; tval.c = 0;
+		val[o] = val[o] + tval; tg[o]++; return;
 	} else { //assert(lst == 2);
 		if(cur == 0) { // tp3 : lst = 2, cur = 0
-			node tval; tval.c = (val[o].b + val[o].d) % mod; tval.b = 0; tval.d = 0; tval.a = (val[o].a + val[o].c) % mod; 
+			node tval; tval.c = ((ll) val[o].c + val[o].b + val[o].d) % mod; tval.b = 0; tval.d = 0; tval.a = val[o].a;
 			val[o] = val[o] + tval; return;
 		}
 		if(cur == 1) { // tp4 : lst = 2, cur = 1
@@ -72,7 +86,7 @@ void upd(int xl, int xr, int lst, int o = 1, int l = 1, int r = n) {
 			node tval; tval.a = 1; tval.b = tval.c = tval.d = 0; val[o] = val[o] + tval;
 		}
 	}
-	if(l == r) return; int mid = l + r >> 1;
+	if(l == r) return; int mid = l + r >> 1; pd(o);
 	upd(xl, xr, cur, o << 1, l, mid); upd(xl, xr, cur, o << 1 | 1, mid + 1, r);
 }
 
@@ -80,7 +94,7 @@ int main() {
 #ifndef ONLINE_JUDGE
 	freopen("1.in", "r", stdin);
 #endif
-	n = in, m = in; build(); pw = 1;
+	n = in, m = in; build(); pw = 1; ipw[0] = 1; rep(i, 1, m) ipw[i] = 1ll * ipw[i - 1] * inv2 % mod;
 	while(m--) {
 		int op = in, l, r;
 		if(op == 1) l = in, r = in, upd(l, r, 2), pw = pw * 2ll % mod;

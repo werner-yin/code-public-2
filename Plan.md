@@ -6,7 +6,7 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 
 | $\checkmark$ |  ❌   | $\circ$ | 总量  | 剩余 |
 | :----------: | :--: | :-----: | :---: | :--: |
-|     $68$     | $6$  |  $13$   | $132$ | $45$ |
+|     $69$     | $6$  |  $13$   | $132$ | $44$ |
 
 **画饼**：
 
@@ -65,6 +65,6 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 |     JSOI 2018      | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |              |   $\circ$    |
 |     FJOI 2018      |   $\circ$    | $\checkmark$ |              |      /       |      /       |      /       |
 |   ~~TJOI 2018~~    | $\checkmark$ |   $\circ$    | $\checkmark$ | $\checkmark$ |   $\circ$    | $\checkmark$ |
-|     SDOI 2018      |              | $\checkmark$ |              |              |              | $\checkmark$ |
+|     SDOI 2018      |              | $\checkmark$ |              |              | $\checkmark$ | $\checkmark$ |
 
 提示：本进度的最新版位于 [gitee 的同步](https://gitee.com/yinjinrun/code-public-2/blob/master/Plan.md)，博客园的版本应该会更新，~~但是要以防我哪天突然忘了~~。

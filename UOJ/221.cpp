@@ -15,11 +15,12 @@ template < typename T > T read() {
 	return f ? -x : x;
 }
 
-const int N = 1e8 + 10;
+const int N = 5e5 + 10;
 
 int n, m, K;
-int mu[N], pri[N], pnum;
+int mu[N + 10], smu[N + 10], pri[N], pnum;
 bool v[N];
+int pk[N], tot;
 
 void init(int l) {
 	mu[1] = 1; rep(i, 2, l) {
@@ -29,27 +30,44 @@ void init(int l) {
 			v[pri[j] * i] = true; if(i % pri[j] == 0) { mu[pri[j] * i] = 0; break; }
 			mu[pri[j] * i] = -mu[i];
 		}
-	}
+	} rep(i, 1, l) smu[i] = smu[i - 1] + mu[i];
 }
 
-ll lcm(ll x, ll y) { return x / __gcd(x, y) * y; }
+unordered_map < int, ll > mp;
+
+ll S(int x) {
+	if(x < N - 10) return smu[x];
+	if(mp.count(x)) return mp[x];
+	ll res = 1;
+	for(ll l = 2, r; l <= x; l = r + 1) {
+		r = x / (x / l);
+		res -= (r - l + 1) * S(x / l);
+	} return mp[x] = res;
+}
+
+ll f(int n, int m, int k) {
+	if(n == 0 || m == 0) return 0;
+	if(k == 1) {
+		ll res = 0;
+		for(ll l = 1, r; l <= min(n, m); l = r + 1) {
+			r = min(n / (n / l), m / (m / l));
+			res += (S(r) - S(l - 1)) * (n / l) * (m / l);
+		}
+		return res;
+	}
+	ll res = 0;
+	rep(_, 1, tot) {
+		int d = pk[_]; if(k < d) break; if(k % d) continue; if(mu[d] == 0) continue;
+		res += mu[d] * f(m / d, n, d);
+	} return res;
+}
 
 int main() {
 #ifndef ONLINE_JUDGE
 	freopen("1.in", "r", stdin);
 #endif
-	n = in, m = in, K = in;
-	init(max(n, K));
-	ll ans = 0;
-	//rep(j, 1, m) { if(__gcd(j, K) == 1) rep(i, 1, n) if(__gcd(i, j) == 1) ans++; }
-	rep(d1, 1, K) 
-		if(K % d1 == 0 && mu[d1]) {
-			ll res = 0;
-			rep(d2, 1, n) if(mu[d2]) {
-				ll t = 1ll * (m / lcm(d1, d2)) * (n / d2) * mu[d2];
-				res += t;
-			} ans += res * mu[d1];
-		}
-	printf("%lld\n", ans);
+	n = in, m = in, K = in; init(N - 5);
+	rep(d, 1, K) if(K % d == 0) pk[++tot] = d;
+	printf("%lld\n", f(n, m, K));
 	return 0;
 }

@@ -91,7 +91,7 @@ void solve(int tp) {
 		rep(i, 1, K) rep(j, i, K) (g[i - 1] += tf[j] * fac[j - 1] % mod * (j - i & 1 ? mod - 1 : 1) % mod * C(j - 1, i - 1) % mod) %= mod;
 	}
 	per(i, sum, 0) {
-		int res = 0; rep(j, 0, K) (res += g[j] * ans[i - j] % mod) %= mod;
+		int res = 0; rep(j, 0, min(K, i)) (res += g[j] * ans[i - j] % mod) %= mod;
 		ans[i] = res;
 	}
 }
@@ -100,6 +100,6 @@ int main() {
 #ifndef ONLINE_JUDGE
 	freopen("1.in", "r", stdin);
 #endif
-	init(5000); m = in; rep(i, 1, m) solve(i == 1); ll res = 0; rep(i, 1, sum) res = (res + ans[i] * fac[i] % mod) % mod; printf("%lld\n", res);
-	return 0;
+	init(5000); ans[0] = 1; m = in; rep(i, 1, m) solve(i == 1);
+	ll res = 0; rep(i, 1, sum) res = (res + ans[i] * fac[i] % mod) % mod; printf("%lld\n", res); return 0;
 }

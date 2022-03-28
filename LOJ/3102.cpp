@@ -68,9 +68,9 @@ void dfs(int x, int p) {
 					
 					(tmp[i + j][1] += 1ll * f[x][i][1] * f[y][j][2] % mod) %= mod;
 					
-					(tmp[i + j + 1][0] += 1ll * f[x][i][2] * f[y][j][0] % mod) %= mod;
-					(tmp[i + j + 1][0] += 2ll * f[x][i][2] * f[y][j][1] % mod) %= mod;
-					(tmp[i + j][0] += 1ll * f[x][i][2] * f[y][j][2] % mod) %= mod;
+					(tmp[i + j + 1][2] += 1ll * f[x][i][2] * f[y][j][0] % mod) %= mod;
+					(tmp[i + j + 1][2] += 2ll * f[x][i][2] * f[y][j][1] % mod) %= mod;
+					(tmp[i + j][2] += 1ll * f[x][i][2] * f[y][j][2] % mod) %= mod;
 				}
 			}
 			siz[x] += siz[y];
@@ -82,7 +82,7 @@ void solve(int tp) {
 	K = in; sum += K;
 	rep(i, 1, K) { rep(j, 0, K) f[i][j][0] = f[i][j][1] = f[i][j][2] = 0; G[i].clear(); }
 	rep(i, 2, K) { int u = in, v = in; G[u].eb(v), G[v].eb(u); } dfs(1, 0);
-	rep(i, 1, K) tf[i] = (f[1][i - 1][0] + f[1][i][1] * 2ll + f[1][i][2]) % mod;
+	rep(i, 1, K) tf[i] = (f[1][i - 1][0] + f[1][i - 1][1] * 2ll + f[1][i][2]) % mod;
 	rep(i, 0, K) g[i] = 0;
 	if(!tp) rep(i, 1, K) rep(j, i, K) (g[i] += tf[j] * fac[j] % mod * (j - i & 1 ? mod - 1 : 1) % mod * C(j - 1, i - 1) % mod) %= mod;
 	else if(tp) {
@@ -91,7 +91,7 @@ void solve(int tp) {
 		rep(i, 1, K) rep(j, i, K) (g[i - 1] += tf[j] * fac[j - 1] % mod * (j - i & 1 ? mod - 1 : 1) % mod * C(j - 1, i - 1) % mod) %= mod;
 	}
 	per(i, sum, 0) {
-		int res = 0; rep(j, 0, min(K, i)) (res += g[j] * ans[i - j] % mod) %= mod;
+		int res = 0; rep(j, 0, min(K, i)) (res += g[j] * ans[i - j] % mod * ifac[j] % mod) %= mod;
 		ans[i] = res;
 	}
 }

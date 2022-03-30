@@ -38,7 +38,7 @@ void getf() {
 	static int tmp[N][N], sf[N][N];
 	f[0][0] = 1; int tot = 0;
 	rep(x, 1, ci) {
-		if(!imp[x].size()) continue; tot += sum[x]; 
+		if(!imp[x].size()) continue; tot += sum[x];
 		int lim1 = min(tot, c[0]), lim2 = min(tot, d[0]);
 		rep(i, 0, lim1) rep(j, 0, lim2) tmp[i][j] = f[i][j], sf[i][j] = 0;
 		//cerr << "C : " << sum[x] - tsum[x] << endl;
@@ -48,7 +48,7 @@ void getf() {
 				int cur = 0;
 				if(ban[v] != 0 && i >= s[v] && j >= s[v]) cur = (cur + tmp[i - s[v]][j - s[v]]) % mod;
 				if(ban[v] != 1 && i >= s[v]) cur = (cur + tmp[i - s[v]][j]) % mod;
-				tmp[i][j] = cur; 
+				tmp[i][j] = cur;
 			}
 		}
 		rep(i, 0, lim1) rep(j, 0, lim2) (sf[i][j] += (i >= sum[x] - tsum[x] ? tmp[i - (sum[x] - tsum[x])][j] : 0)) %= mod;
@@ -67,7 +67,7 @@ void getf() {
 
 void getg() {
 	g[0] = 1; int tot = 0;
-	rep(x, 1, ci) if(!tsum[x]) {
+	rep(x, 1, ci) if(!imp[x].size()) {
 		tot += sum[x]; int lim = min(tot, c[0]), num = sum[x];
 		if(!num) continue; per(i, lim, 0) g[i] = ((i >= num ? g[i - num] : 0) + g[i]) % mod;
 	}
@@ -87,15 +87,15 @@ void solve() {
 	K = in; rep(i, 1, K) { int x = in; ban[x] = in; imp[b[x]].eb(x); tsum[b[x]] += s[x]; }
 	memset(f, 0, sizeof f); memset(g, 0, sizeof g); memset(h, 0, sizeof h);
 	getf(); getg(); geth(); int al = 0; rep(i, 1, n) al += s[i];
-	rep(i, 1, min(al, c[0])) g[i] = (g[i] + g[i - 1]) % mod;//, cerr << g[i] << " "; cerr << endl;
-	rep(i, 1, min(al, d[0])) h[i] = (h[i] + h[i - 1]) % mod;//, cerr << h[i] << " "; cerr << endl;
+	rep(i, 1, max(c[0], c[1])) g[i] = (g[i] + g[i - 1]) % mod;//, cerr << g[i] << " "; cerr << endl;
+	rep(i, 1, max(d[0], d[1])) h[i] = (h[i] + h[i - 1]) % mod;//, cerr << h[i] << " "; cerr << endl;
 	int ans = 0;
 	rep(i, 0, c[0])
 		rep(j, 0, d[0]) if(f[i][j]) {
 		int lc = max(al - i - c[1], 0), rc = c[0] - i;
 		int ld = max(al - j - d[1], 0), rd = d[0] - j;
-		//cerr << "!" << i << " " << j << " " << lc << " " << rc << " " << ld << " " << rd << endl;
 		if(lc > rc || ld > rd) continue;
+		//cerr << "!" << i << " " << j << " " << lc << " " << rc << " " << ld << " " << rd << endl;
 		ans = (ans + 1ll * f[i][j] * (g[rc] - (lc ? g[lc - 1] : 0) + mod) % mod * (h[rd] - (ld ? h[ld - 1] : 0) + mod) % mod) % mod;
 	} printf("%d\n", ans);
 }

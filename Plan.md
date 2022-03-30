@@ -6,7 +6,7 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 
 | $\checkmark$ |  ❌   | $\circ$ | 总量  | 剩余 |
 | :----------: | :--: | :-----: | :---: | :--: |
-|     $74$     | $7$  |  $13$   | $132$ | $38$ |
+|     $75$     | $7$  |  $13$   | $132$ | $37$ |
 
 **画饼**：
 
@@ -42,33 +42,34 @@ $\checkmark$ 表示已经完成，❌ 表示弃疗了，$\circ$ 表示口胡的�
 - $\text{2022.03.26}$：剩余 $42$ 个题目。
 - $\text{2022.03.28}$：剩余 $40$ 个题目。
 - $\text{2022.03.29}$：剩余 $38$ 个题目（干了一个弃疗了一个），终于剩余数量到了 $3$ 字头了！同时更正了之前一个题目的位置。
+- $\text{2022.03.30}$：剩余 $37$ 个题目。修改了部分排版内容，将待完成的场使用==高亮==表示。
 
-|        比赛        |      A       |      B       |      C       |      D       |      E       |      F       |
-| :----------------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
-|   省选联考 2021    | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |              |
-| ~~省选联考 2020~~  | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
-|      ZJOI2020      |              | $\checkmark$ | $\checkmark$ |              |              |              |
-|    ~~BJOI2020~~    | $\checkmark$ |      /       |      /       |      /       |      /       |      /       |
-|      SNOI2020      |              |              |              |              |              |              |
-|  十二省联考 2019   | $\checkmark$ |              |              | $\checkmark$ |              |              |
-|     ZJOI 2019      | $\checkmark$ | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |              |
-|     HNOI 2019      |              |              |              |              |              |      ❌       |
-|     BJOI 2019      | $\checkmark$ |      ❌       |              | $\checkmark$ | $\checkmark$ | $\checkmark$ |
-|   ~~JSOI 2019~~    | $\checkmark$ | $\checkmark$ | $\checkmark$ |      /       |      /       |      /       |
-|   ~~TJOI 2019~~    |   $\circ$    |   $\circ$    |   $\circ$    |   $\circ$    | $\checkmark$ | $\checkmark$ |
-|     SDOI 2019      |   $\circ$    |              | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |
-|   GXOI/GZOI 2019   | $\checkmark$ |              |              |   $\circ$    | $\checkmark$ | $\checkmark$ |
-|   ~~SNOI 2019~~    |   $\circ$    | $\checkmark$ | $\checkmark$ |   $\circ$    |   $\circ$    |      ❌       |
-|     ZJOI 2018      |              |      ❌       |              |              |              |              |
-| ~~九省联考 2018~~  | $\checkmark$ | $\checkmark$ | $\checkmark$ |      /       |      /       |      /       |
-| ~~八省联考 2018~~  | $\checkmark$ | $\checkmark$ |      ❌       |      /       |      /       |      /       |
-| ~~HNOI/AHOI 2018~~ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
-|   ~~BJOI 2018~~    | $\checkmark$ | $\checkmark$ |      ❌       | $\checkmark$ | $\checkmark$ | $\checkmark$ |
-|   ~~CQOI 2018~~    | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
-|   ~~HAOI 2018~~    | $\checkmark$ | $\checkmark$ |      ❌       | $\checkmark$ | $\checkmark$ |      /       |
-|     JSOI 2018      | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |              |   $\circ$    |
-|     FJOI 2018      |   $\circ$    | $\checkmark$ |              |      /       |      /       |      /       |
-|   ~~TJOI 2018~~    | $\checkmark$ |   $\circ$    | $\checkmark$ | $\checkmark$ |   $\circ$    | $\checkmark$ |
-|     SDOI 2018      |              | $\checkmark$ |              |              | $\checkmark$ | $\checkmark$ |
+|        比赛         |      A       |      B       |      C       |      D       |      E       |      F       |
+| :-----------------: | :----------: | :----------: | :----------: | :----------: | :----------: | :----------: |
+|  ==省选联考 2021==  | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |              |
+|  ~~省选联考 2020~~  | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
+|    ==ZJOI2020==     |              | $\checkmark$ | $\checkmark$ |              |              |              |
+|    ~~BJOI2020~~     | $\checkmark$ |      /       |      /       |      /       |      /       |      /       |
+|    ==SNOI2020==     |              |              |              |              |              |              |
+| ==十二省联考 2019== | $\checkmark$ |              |              | $\checkmark$ | $\checkmark$ |              |
+|    ==ZJOI 2019==    | $\checkmark$ | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |              |
+|    ==HNOI 2019==    |              |              |              |              |              |      ❌       |
+|    ==BJOI 2019==    | $\checkmark$ |      ❌       |              | $\checkmark$ | $\checkmark$ | $\checkmark$ |
+|    ~~JSOI 2019~~    | $\checkmark$ | $\checkmark$ | $\checkmark$ |      /       |      /       |      /       |
+|    ~~TJOI 2019~~    |   $\circ$    |   $\circ$    |   $\circ$    |   $\circ$    | $\checkmark$ | $\checkmark$ |
+|    ==SDOI 2019==    |   $\circ$    |              | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |
+| ==GXOI/GZOI 2019==  | $\checkmark$ |              |              |   $\circ$    | $\checkmark$ | $\checkmark$ |
+|    ~~SNOI 2019~~    |   $\circ$    | $\checkmark$ | $\checkmark$ |   $\circ$    |   $\circ$    |      ❌       |
+|    ==ZJOI 2018==    |              |      ❌       |              |              |              |              |
+|  ~~九省联考 2018~~  | $\checkmark$ | $\checkmark$ | $\checkmark$ |      /       |      /       |      /       |
+|  ~~八省联考 2018~~  | $\checkmark$ | $\checkmark$ |      ❌       |      /       |      /       |      /       |
+| ~~HNOI/AHOI 2018~~  | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
+|    ~~BJOI 2018~~    | $\checkmark$ | $\checkmark$ |      ❌       | $\checkmark$ | $\checkmark$ | $\checkmark$ |
+|    ~~CQOI 2018~~    | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ | $\checkmark$ |
+|    ~~HAOI 2018~~    | $\checkmark$ | $\checkmark$ |      ❌       | $\checkmark$ | $\checkmark$ |      /       |
+|    ==JSOI 2018==    | $\checkmark$ | $\checkmark$ |              | $\checkmark$ |              |   $\circ$    |
+|    ==FJOI 2018==    |   $\circ$    | $\checkmark$ |              |      /       |      /       |      /       |
+|    ~~TJOI 2018~~    | $\checkmark$ |   $\circ$    | $\checkmark$ | $\checkmark$ |   $\circ$    | $\checkmark$ |
+|    ==SDOI 2018==    |              | $\checkmark$ |              |              | $\checkmark$ | $\checkmark$ |
 
 提示：本进度的最新版位于 [gitee 的同步](https://gitee.com/yinjinrun/code-public-2/blob/master/Plan.md)，博客园的版本应该会更新，~~但是要以防我哪天突然忘了~~。

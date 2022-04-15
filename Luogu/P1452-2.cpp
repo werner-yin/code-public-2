@@ -59,7 +59,7 @@ int main() {
 		stk[++top] = p[i];
 	}
 	per(i, top - 1, 2) res[++tot] = stk[i];
-	if(tot == 2) return printf("%lld\n", (res[1] - res[2]).val());
+	if(tot == 2) return printf("%lld\n", (res[1] - res[2]).val()), 0;
 	int pos = 1; ll ans = (res[1] - res[2]).val();
 	rep(i, 1, tot) {
 		int nxt = i % tot + 1;

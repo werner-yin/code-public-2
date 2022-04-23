@@ -1,5 +1,9 @@
 主要是做 UR / UER / ULR，✅ 表示完成，❌ 表示弃疗，⭕ 表示口胡。**持续更新中。**
 
+完成情况历史记录可以在 <https://gitee.com/yinjinrun/code-public-2/commits/master/Plan-2.md> 查看。
+
+最新版本位于 <https://gitee.com/yinjinrun/code-public-2/blob/master/Plan-2.md>。
+
 # UOJ Easy Round
 
 |      |  A   |  B   |  C   |

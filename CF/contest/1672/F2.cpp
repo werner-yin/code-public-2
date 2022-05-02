@@ -29,31 +29,24 @@ template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 
 const int N = 1e6 + 10;
 
-vec pot[N], tpot[N];
+vec pot[N];
 int id[N], a[N], n, b[N], p[N];
-bool vis[N];
+bool vis[N], instk[N], ok;
 
-random_device tnd;
-mt19937 rnd(tnd());
+void dfs(int x) {
+	instk[x] = vis[x] = true;
+	for(auto y : pot[x]) {
+		if(instk[y]) ok = 0;
+		if(!vis[y]) dfs(y);
+	} instk[x] = 0;
+}
 
 void solve() {
-	n = in; rep(i, 1, n) pot[i].clear(); rep(i, 1, n) a[i] = in, id[i] = i, pot[a[i]].eb(i);
-	sort(id + 1, id + n + 1, [&](int x, int y) { return pot[x].size() > pot[y].size(); });
-	int ans = pot[id[1]].size(); rep(i, 1, n) b[i] = in;
-	rep(i, 1, n) pot[i].clear();
-	rep(i, 1, n) pot[b[i]].eb(i);
-	rep(_, 1, 100) {
-		rep(i, 1, n) tpot[i] = pot[i], shuffle(tpot[i].begin(), tpot[i].end(), default_random_engine(rnd()));
-		rep(i, 1, n) 
-			p[i] = tpot[a[i]].back(), tpot[a[i]].pop_back(), vis[i] = 0;
-		int cur = 0;
-		//rep(i, 1, n) cerr << p[i] << " ";
-		rep(i, 1, n) if(!vis[i]) {
-			int x = i; ++cur;
-			while(!vis[x]) vis[x] = true, x = p[x];
-		} cerr << cur << " " << ans << endl;
-		if(cur > ans) return puts("WA"), void();
-	} puts("AC");
+	n = in; rep(i, 1, n) pot[i].clear(); rep(i, 1, n) a[i] = in;
+	rep(i, 1, n) b[i] = in, pot[a[i]].eb(b[i]), vis[i] = instk[i] = 0;
+	ok = 1; int t = 1; rep(i, 1, n) if(pot[i].size() > pot[t].size()) t = i; vis[t] = true;
+	rep(i, 1, n) if(!vis[i]) dfs(i);
+	if(ok) puts("AC"); else puts("WA");
 }
 
 int main() {

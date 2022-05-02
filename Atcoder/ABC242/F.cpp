@@ -48,16 +48,16 @@ int main() {
 #endif
 	n = in, m = in, b = in, w = in;
 	init(n * m);
-	rep(i, 1, n) rep(j, 1, m) f[i][j] = C(i * j, b), g[i][j] = C(i * j, w);
 	rep(i, 1, n) rep(j, 1, m) {
-		tf[i][j] = (f[i][j] - f[i - 1][j] - f[i][j - 1] + f[i - 1][j - 1]) % mod;
-		tg[i][j] = (g[i][j] - g[i - 1][j] - g[i][j - 1] + g[i - 1][j - 1]) % mod;
-		tf[i][j] = (tf[i][j] + mod) % mod; tg[i][j] = (tg[i][j] + mod) % mod;
-		//cerr << tf[i][j] << " " << tg[i][j] << endl;
+		f[i][j] = C(i * j, b), g[i][j] = C(i * j, w);
+		rep(k, 1, i) rep(d, 1, j)
+			if(k != i || j != d)
+				f[i][j] = (f[i][j] + mod - C(i, k) * C(j, d) % mod * f[k][d] % mod) % mod,
+					g[i][j] = (g[i][j] + mod - C(i, k) * C(j, d) % mod * g[k][d] % mod) % mod;
 	}
 	ll ans = 0;
 	rep(i, 1, n) rep(j, 1, m) rep(k, 1, n) rep(l, 1, m) {
-		ans = (ans + tf[i][j] * tg[k][l] % mod * C(n, i) % mod * C(m, j) % mod *
+		ans = (ans + f[i][j] * g[k][l] % mod * C(n, i) % mod * C(m, j) % mod *
 			   C(n - i, k) % mod * C(m - j, l) % mod) % mod;
 	} cout << ans << endl;
 	return 0;

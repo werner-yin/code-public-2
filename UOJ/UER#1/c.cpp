@@ -29,59 +29,46 @@ template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 
 const int N = 1e6 + 10;
 
-int n, m, tim;
+int n, m, tim, tp[N], fa[N], a[N], b[N], tot, siz[N];
 char s[114];
+vector < tuple < int, int, int, int > > pot;
+ll ret, cnt, ans[N];
 
-namespace seg {
-	const int N = 6e6 + 10;
-	int ch[N][2], ndn, tms[N]; pii val[N];
-	int nd(pii v) { int x = ++ndn; val[x] = v; return x; }
-	int copy(int x) { if(tms[x] == tim) return x; int y = ++ndn; val[y] = val[x], ch[y][0] = ch[x][0], ch[y][1] = ch[x][1]; tms[y] = tms[x]; return y; }
-	void upd(int p, pii v, int &x, int l = 1, int r = n) {
-		x = copy(x); if(l == r) return val[x] = v, void(); int mid = l + r >> 1;
-		if(p <= mid) upd(p, v, ch[x][0], l, mid); else upd(p, v, ch[x][1], mid + 1, r);
-	}
-	pii query(int p, int x, int l = 1, int r = n) {
-		if(l == r) return val[x]; int mid = l + r >> 1;
-		if(p <= mid) return query(p, ch[x][0], l, mid); else return query(p, ch[x][1], mid + 1, r); 
-	}
-	void build(int &x, int l = 1, int r = n) {
-		x = nd({ 0, 0 }); if(l == r) return val[x].fi = l, void(); int mid = l + r >> 1;
-		build(ch[x][0], l, mid); build(ch[x][1], mid + 1, r);
-	}
+int gf(int x) { return fa[x] == x ? x : gf(fa[x]); }
+
+void merge(int x, int y, int w, int tid) {
+	x = gf(x), y = gf(y); if(x == y) return;
+	if(siz[x] > siz[y]) swap(x, y); pot.eb(x, y, w, tid); cnt++, ret += w; fa[x] = y; siz[y] += siz[x];
 }
 
-struct node {
-	int rt, toted, mxcnt; ll totw; 
-} stk[N];
-int tot;
-
-int gf(int id, int x) { int t; while((t = seg :: query(x, id).fi) != x) x = t; return x; }
+void undo() {
+	int x, y, w, id; tie(x, y, w, id) = pot.back(); pot.pop_back();
+	siz[y] -= siz[x]; fa[x] = x; cnt--, ret -= w;
+}
 
 int main() {
 #ifndef ONLINE_JUDGE
 	freopen("1.in", "r", stdin);
 #endif
-	n = in, m = in; node lst = (node) { 0, 0, 0, 0 };
-	seg :: build(lst.rt);
+	n = in, m = in;
 	rep(i, 1, m) {
-		scanf("%s", s + 1); tim = i;
-		if(s[1] != 'R') {
-			tot = lst.mxcnt, stk[tot] = lst;
-		}
-		if(s[1] == 'A') {
-			lst = stk[tot]; lst.mxcnt++;
-			int x = in, y = in, fx = gf(lst.rt, x), fy = gf(lst.rt, y);
-			if(fx != fy) {
-				int dx = seg :: query(fx, lst.rt).se, dy = seg :: query(fy, lst.rt).se;
-				if(dx > dy) swap(dx, dy), swap(x, y), swap(fx, fy);
-				seg :: upd(fx, pii(fy, 114), lst.rt); if(dx == dy) seg :: upd(fy, pii(fy, dy + 1), lst.rt); lst.toted++; lst.totw += i;
+		scanf("%s", s + 1);
+		if(s[1] == 'A') tp[i] = 0, a[i] = in, b[i] = in;
+		else if(s[1] == 'D') tp[i] = 1, a[i] = in;
+		else tp[i] = 2;
+	} rep(i, 1, n) fa[i] = i, siz[i] = 1; 
+	rep(i, 1, m) {
+		if(tp[i] == 0) merge(a[i], b[i], i, ++tot), printf("%lld\n", ans[tot] = cnt == n - 1 ? ret : 0);
+		else if(tp[i] == 1) {
+			if(tp[i + 1] == 2) printf("%lld\n", ans[tot - a[i]]);
+			else {
+				while(pot.size() && get<3>(pot.back()) > tot - a[i]) undo();
+				tot -= a[i]; printf("%lld\n", ans[tot] = cnt == n - 1 ? ret : 0);
 			}
-		} else if(s[1] == 'D') {
-			lst = stk[tot - in];
-		} else {
-			lst = stk[tot];
-		} printf("%lld\n", lst.toted == n - 1 ? lst.totw : 0);
+		} else if(tp[i] == 2) {
+			if(pot.size() && get<2>(pot.back()) == i - 1) undo(); if(i > 1 && tp[i - 1] == 0) tot--;
+			printf("%lld\n", ans[tot] = cnt == n - 1 ? ret : 0);
+		} //cerr << "!" << cnt << " " << tp[i] << endl;
 	}
 	return 0;
 }

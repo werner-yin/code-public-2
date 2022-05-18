@@ -67,7 +67,7 @@ void init(int l) {
 using poly = vector < Z >;
 
 int rev[N << 2], len;
-Z A[N << 2], B[N << 2];
+Z A[N << 2], B[N << 2], w[N << 2];
 
 void init_NTT(int l) {
 	for(len = 1; len <= l + 2; len <<= 1);
@@ -78,12 +78,12 @@ void init_NTT(int l) {
 void NTT(Z *f, int fl = 1) {
 	rep(i, 1, len - 1) if(i < rev[i]) swap(f[i], f[rev[i]]);
 	for(int h = 2; h <= len; h <<= 1) {
-		Z wn = qp(Z(G), (mod - 1) / h);
+		Z wn = qp(Z(G), (mod - 1) / h), ww = 1;
+		for(int k = 0, j = h >> 1; k < j; k++) w[k] = ww, ww = ww * wn;
 		for(int i = 0, j = h >> 1; i < len; i += h) {
-			Z ww = 1;
-			for(int k = i; k < i + j; k++) {
-				Z u = f[k], v = f[k + j] * ww; ww *= wn;
-				f[k] = u + v; f[k + j] = u - v;
+			for(int k = 0; k < j; k++) {
+				Z u = f[i | k], v = f[i | k | j] * w[k];
+				f[i | k] = u + v; f[i | k | j] = u - v;
 			}
 		}
 	} if(fl == -1) {

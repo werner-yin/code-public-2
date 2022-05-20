@@ -46,6 +46,7 @@ void solve() {
 		vec b = a[i];
 		sort(b.begin() + 1, b.end());
 		rep(j, 1, m) if(b[j] != a[i][j]) ned.eb(j);
+		if(ned.size()) break;
 	}
 	if(ned.size() > 2) return puts("-1"), void();
 	if(ned.size() == 0) return puts("1 1"), void();

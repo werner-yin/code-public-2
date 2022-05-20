@@ -41,18 +41,15 @@ void solve() {
 	n = in, m = in; //cerr << "!" << n << " " << m << endl;
 	a = vector < vec > (n + 1, vec(m + 1, 0));
 	rep(i, 1, n) rep(j, 1, m) a[i][j] = in;
-	int lst = -1;
-	rep(j, 1, m - 1) {
-		bool must = 0, mustn = 0;
-		rep(i, 1, n) if(a[i][j] > a[i][j + 1]) must = true; else if(a[i][j] < a[i][j + 1]) mustn = true;
-		if(must && mustn) return puts("-1"), void();
-		if(must) {
-			if(lst != -1) { swp(lst, j + 1); lst = -114; break; }
-			else lst = j;
-		}
+	vec ned;
+	rep(i, 1, n) {
+		vec b = a[i];
+		sort(b.begin() + 1, b.end());
+		rep(j, 1, m) if(b[j] != a[i][j]) ned.eb(j);
 	}
-	if(lst == -1) pos1 = 1, pos2 = 1;
-	else if(lst != -114) swp(lst, lst + 1);
+	if(ned.size() > 2) return puts("-1"), void();
+	if(ned.size() == 0) return puts("1 1"), void();
+	swp(ned[0], ned[1]);
 	rep(i, 1, n) rep(j, 1, m - 1) if(a[i][j] > a[i][j + 1]) return puts("-1"), void();
 	printf("%d %d\n", pos1, pos2);
 }

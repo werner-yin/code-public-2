@@ -28,33 +28,36 @@ template < typename T > void chkmax(T &x, const T &y) { x = x > y ? x : y; }
 template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 
 const int N = 1e6 + 10;
-const db eps = 1e-9;
 
-struct ve {
-	ll x, y;
-	ve(ll _x = 0, ll _y = 0) : x(_x), y(_y) {}
-	friend ve operator + (ve a, ve b) { return ve(a.x + b.x, a.y + b.y); }
-	friend ve operator - (ve a, ve b) { return ve(a.x - b.x, a.y - b.y); }
-	friend ve operator * (ve a, db x) { return ve(a.x * x, a.y * x); }
-	friend ll operator ^ (ve a, ve b) { return a.x * b.y - a.y * b.x; }
-} a[N], b[N];
+int n, m, pos1, pos2;
+vector < vec > a;
 
-int n, m, Q;
-ll mx[N];
+void swp(int x, int y) {
+	pos1 = x, pos2 = y;
+	rep(i, 1, n) swap(a[i][x], a[i][y]);
+}
+
+void solve() {
+	n = in, m = in; //cerr << "!" << n << " " << m << endl;
+	a = vector < vec > (n + 1, vec(m + 1, 0));
+	rep(i, 1, n) rep(j, 1, m) a[i][j] = in;
+	vec ned;
+	rep(i, 1, n) {
+		vec b = a[i];
+		sort(b.begin() + 1, b.end());
+		rep(j, 1, m) if(b[j] != a[i][j]) ned.eb(j);
+		if(ned.size()) break;
+	}
+	if(ned.size() > 2) return puts("-1"), void();
+	if(ned.size() == 0) return puts("1 1"), void();
+	swp(ned[0], ned[1]);
+	rep(i, 1, n) rep(j, 1, m - 1) if(a[i][j] > a[i][j + 1]) return puts("-1"), void();
+	printf("%d %d\n", pos1, pos2);
+}
 
 int main() {
 #ifndef ONLINE_JUDGE
 	freopen("1.in", "r", stdin);
 #endif
-	n = in; rep(i, 1, n) a[i].x = in, a[i].y = in;
-	m = in; rep(i, 1, m) b[i].x = in, b[i].y = in;
-	a[n + 1] = a[1]; rep(i, 1, n) mx[i] = -1e18;
-	rep(i, 1, n) 
-		rep(j, 1, m) chkmax(mx[i], (a[i + 1] - a[i]) ^ (a[i] + b[j]));
-	Q = in;
-	while(Q--) {
-		ve t; t.x = in, t.y = in; bool fl = true;
-		rep(i, 1, n) fl &= ((a[i + 1] - a[i]) ^ t) >= mx[i];
-		puts(fl ? "Yes" : "No");
-	}
+	for(int T = in; T; T--) solve(); return 0;
 }

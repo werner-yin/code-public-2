@@ -64,21 +64,14 @@ void init(int l) {
 }
 
 int n, p, K;
-Z wk[N], ans, pt[N];
+Z wk[N], ans;
 
 int main() {
 #ifndef ONLINE_JUDGE
 	freopen("1.in", "r", stdin);
 #endif
 	n = in, p = in, K = in; wk[0] = 1; wk[1] = qp(Z(3), (mod - 1) / K);
-	rep(i, 2, K - 1) wk[i] = wk[i - 1] * wk[1];
-	for(int t = 1; t <= K; t <<= 1) {
-		Z vt = t, s = 0;
-		rep(j, 0, K - 1) {
-			s += wk[j];
-			j += t - 1;
-		} pt[t] = s * vt;
-	}
+	rep(i, 2, K) wk[i] = wk[i - 1] * wk[1];
 	//cerr << (qp(Z(p + 1), n - 1) * n * p).val() << endl;
 	//rep(j, 0, K - 1) 
 	//	ans += qp(p + wk[j] + 1, n) * pt[__gcd(j, K)];
@@ -95,9 +88,12 @@ int main() {
 		ans += pt * vt;
 	}
 	*/
-	rep(d, 0, K - 1) rep(j, 0, K - 1)
-		//rep(i, 0, n) ans += d * C(n, i) * qp(Z(p), i) * qp(wk[1], 1ll * j * i - j * d);
-		ans += qp(wk[1], -1ll * d * j) * qp(p * wk[j] + 1, n) * d;
+	auto calc = [](int n, Z x) {
+					Z t = qp(x, n + 1), v = (1 - x).inv(); return ((x - t) * v - n * t) * v;
+				};
+	rep(j, 0, K - 1)
+		if(wk[K - j].val() == 1) ans += Z(1ll * K * (K - 1) / 2) * qp(wk[j] * p + 1, n);
+		else ans += calc(K - 1, wk[K - j]) * qp(wk[j] * p + 1, n);
 	ans /= K; ans = qp(Z(p + 1), n - 1) * n * p - ans; ans /= K; cout << ans.val() << endl;
 	return 0;
 }

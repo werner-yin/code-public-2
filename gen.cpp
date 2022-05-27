@@ -30,7 +30,7 @@ template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 const int N = 1e6 + 10;
 
 int main() {
-#ifndef ONLINE_JUDGE
+#ifdef YJR_2333_TEST
 	freopen("1.in", "r", stdin);
 #endif
 	

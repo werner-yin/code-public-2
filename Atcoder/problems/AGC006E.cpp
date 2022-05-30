@@ -53,21 +53,25 @@ int main() {
 	}
 	rep(i, 1, n) {
 		int x = a[1][i], y = a[2][i], z = a[3][i];
-		if(x > z) rev++, swap(x, z), re[i] = 1;
+		if(x > z) swap(x, z), re[i] = 1;
 		if(!f.count({ x, y, z })) GG;
 		int id = f[{ x, y, z }];
 		b[i] = id;
 	}
 	rep(i, 1, n) if((b[i] & 1) ^ (i & 1)) GG;
 	int tret = 0;
-	rep(i, 1, n) if(i & 1) {
-		tret ^= (query(n) - query(b[i])) & 1;
-		add(b[i], 1);
-	} memset(tr, 0, sizeof tr);
-	rep(i, 1, n) if(~i & 1) {
-		tret ^= (query(n) - query(b[i])) & 1;
-		add(b[i], 1);
-	} if(tret != (rev & 1)) GG;
+	rep(i, 1, n)
+		if(i & 1) {
+			tret ^= (query(n) - query(b[i])) & 1;
+			add(b[i], 1);
+		} else rev ^= re[i];
+	if(rev != tret) GG; memset(tr, 0, sizeof tr); rev = 0; tret = 0;
+	rep(i, 1, n)
+		if(~i & 1) {
+			tret ^= (query(n) - query(b[i])) & 1;
+			add(b[i], 1);
+		} else rev ^= re[i];
+	if(tret != rev) GG;
 	puts("Yes");
 	return 0;
 }

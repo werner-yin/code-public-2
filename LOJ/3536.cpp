@@ -77,7 +77,7 @@ const int V = 1e9 + 7;
 mt19937 rnd(random_device{}());
 int rt, ndn, revwe[N], rev[N], ch[N][2], u, v, w, siz[N], pri[N];
 
-void revit(int x) { if(!x) return; rev[x] ^= 1; rep(i, 0, 1) swap(sum[x][i][0], sum[x][i][1]), swap(val[x][i][0], val[x][i][1]); }
+void revit(int x) { if(!x) return; rev[x] ^= 1; swap(ch[x][0], ch[x][1]); rep(i, 0, 1) swap(sum[x][i][0], sum[x][i][1]); } // no need to modify val
 void revweit(int x) { if(!x) return; revwe[x] ^= 1; rep(i, 0, 1) swap(sum[x][0][i], sum[x][1][i]), swap(val[x][0][i], val[x][1][i]); }
 void pd(int x) {
 	if(rev[x]) revit(ch[x][0]), revit(ch[x][1]), rev[x] = 0;
@@ -98,13 +98,13 @@ int nd(int op) {
 void calc() { mat ret; ret[0][0] = 1; ret = ret * sum[rt][0][0] * a[0]; printf("%d %d\n", ret[0][0], ret[0][1]); }
 
 int merge(int x, int y) {
-	if(!x || !y) return x | y;
+	if(!x || !y) return x | y; pd(x), pd(y);
 	if(pri[x] < pri[y]) return ch[x][1] = merge(ch[x][1], y), pu(x), x;
 	else return ch[y][0] = merge(x, ch[y][0]), pu(y), y;
 }
 
 void split(int cur, int k, int &x, int &y) {
-	if(!cur) return x = y = 0, void();
+	if(!cur) return x = y = 0, void(); pd(cur);
 	if(siz[ch[cur][0]] + 1 <= k) x = cur, split(ch[cur][1], k - siz[ch[cur][0]] - 1, ch[x][1], y), pu(x);
 	else y = cur, split(ch[cur][0], k, x, ch[y][0]), pu(y);
 }

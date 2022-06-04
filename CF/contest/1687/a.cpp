@@ -45,7 +45,7 @@ void solve() {
 		ll reta = 0;
 		rep(i, 1, n) if(K - i + 1 >= 0) {
 			ll ret = 0;
-			ret = (ts[n - 1]) * ((K - i + 1) / (n - 1)) + ts[(K - i + 1) % (n - 1)] + ts[n - 1] + 1ll * (i - 2) * (i - 1) / 2;
+			ret = (ts[n - 1]) * ((K - i + 1) / (n - 1)) + ts[(K - i + 1) % (n - 1)] + 1ll * (n + 2 * i - 3) * n / 2;
 			chkmax(reta, ret);
 		} ans += reta;
 	} else {

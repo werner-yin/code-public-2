@@ -35,17 +35,14 @@ int fa[N];
 
 int gf(int x) { return fa[x] == x ? x : fa[x] = gf(fa[x]); }
 
-bool fl;
+bool fl, tag[N];
 int col[N];
 
 void dfs(int x, int c) {
-	if(!fl) return;
 	col[x] = c;
 	for(auto y : G[x]) if(!col[y]) dfs(y, c ^ 1); else fl &= c != col[y];
 	for(auto y : P[x]) if(!col[y]) dfs(y, c ^ 1); else fl &= c != col[y];
 }
-
-bool check(int x) { fl = 1; dfs(x, 2); return fl; }
 
 int main() {
 #ifdef YJR_2333_TEST
@@ -53,28 +50,22 @@ int main() {
 #endif
 	n = in, m = in; rep(i, 1, m) { int u = in, v = in; G[u].eb(v), P[v].eb(u); }
 	rep(i, 1, n) fa[i] = i;
-	rep(i, 1, n) {
-		int lst = 0;
-		for(auto v : P[i]) {
-			if(lst) fa[gf(lst)] = gf(v);
-			lst = v;
-		}
-		for(auto v : G[i]) {
-			if(lst) fa[gf(lst)] = gf(v);
-			lst = v;
-		}
-	}
+	per(i, n, 1) for(auto j : G[i]) fa[gf(i)] = gf(j);
 	int tot1 = 0, tot2 = 0, tot3 = 0; ll ans = 0;
 	rep(i, 1, n) tot1 += gf(i) == i;
-	//cerr << tot1 << endl;
+	rep(i, 1, n) if(!col[i]) {
+		fl = 1; dfs(i, 2);
+		if(fl) tag[gf(i)] = true;
+		else tag[gf(i)] = false;
+	}
 	rep(i, 1, n) tot2 += !G[i].size() && !P[i].size();
-	//cerr << tot2 << endl;
-	rep(i, 1, n) fa[i] = i; rep(i, 1, n) for(auto j : G[i]) fa[gf(i)] = gf(j);
-	rep(i, 1, n) tot3 += gf(i) == i;
-	//cerr << tot3 << endl;
+	rep(i, 1, n)
+		if(tag[gf(i)]) tot3 += (gf(i) == i) * (1 + (G[i].size() || P[i].size()));
+		else tot3 += gf(i) == i;
+	cerr << tot1 << " " << tot2 << " " << tot3 << endl;
 	rep(i, 1, n) {
 		if(!P[i].size() && !G[i].size()) ans += n;
-		else if(!P[i].size()) ans += (check(i) ? tot1 : tot3);
+		else if(gf(i) == i) ans += (tag[gf(i)] ? tot3 : tot1);
 		else ans += tot2;
 	}
 	cout << ans << endl;

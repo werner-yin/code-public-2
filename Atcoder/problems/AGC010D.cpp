@@ -29,15 +29,29 @@ template < typename T > void chkmin(T &x, const T &y) { x = x < y ? x : y; }
 
 const int N = 1e6 + 10;
 
-int n, a[N];
+int n;
 ll tot;
+
+bool solve(vec pot) {
+	bool fl = 0; for(auto v : pot) fl |= v == 1;
+	if(fl) {
+		bool ret = 0; for(auto v : pot) ret ^= (v - 1) & 1;
+		return ret;
+	}
+	int cnt = 0; for(auto v : pot) cnt += ~v & 1;
+	if(cnt & 1) return true;
+	if(cnt + 1 == pot.size()) {
+		for(auto &v : pot) if(v & 1) v--;
+		int ret = 0; for(auto v : pot) ret = __gcd(v, ret);
+		for(auto &v : pot) v /= ret; return solve(pot) ^ 1;
+	} else return false;
+}
 
 int main() {
 #ifdef YJR_2333_TEST
 	freopen("1.in", "r", stdin);
 #endif
-	n = in; rep(i, 1, n) a[i] = in, tot += a[i] - 1;
-	if(tot % 2 == 0) puts("Second");
-	else puts("First");
+	n = in; vec pot; rep(i, 1, n) pot.eb(in);
+	puts(solve(pot) ? "First" : "Second");
 	return 0;
 }

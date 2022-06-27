@@ -36,7 +36,16 @@ int main() {
 	freopen("1.in", "r", stdin);
 #endif
 	n = in, x = in, y = in;
-	int ret = 0; rep(i, 1, n) a[i] = in, ret |= (a[i] % (x + y) == x);
-	puts(ret == 1 ? "First" : "Second");
+	rep(i, 1, n) a[i] = b[i] = in, a[i] %= (x + y);
+	if(x <= y) {
+		rep(i, 1, n) if(a[i] >= x) return puts("First"), 0;
+		puts("Second");
+	} else {
+		bool fl = 0;
+		rep(i, 1, n)
+			if(b[i] >= x && (b[i] - x) % (x + y) < y) fl = 1;
+			else if(a[i] >= y) return puts("Second"), 0;
+		puts(fl ? "First" : "Second");
+	}
 	return 0;
 }

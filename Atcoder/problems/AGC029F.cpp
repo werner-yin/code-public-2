@@ -64,6 +64,20 @@ const int N = 2e5 + 10;
 
 int n;
 vec pot[N];
+pii ans[N];
+bool vis[N];
+
+void dfs(int x) {
+	//cerr << "!" << "Q" << x << endl;
+	for(int i = F :: h[x]; i; i = F :: e[i].nxt) if(F :: e[i].v != 0 && F :: e[i].w && !vis[F :: e[i].v - n]) {
+			vis[F :: e[i].v - n] = true; int y = F :: e[i].v;
+			for(int j = F :: h[y]; j; j = F :: e[j].nxt) if(F :: e[j].w && F :: e[j].v != n * 2) {
+					//cerr << "!" << F :: e[i].v - n << endl;
+					ans[F :: e[i].v - n] = { x, F :: e[j].v };
+					dfs(F :: e[j].v); break;
+				}
+	}
+}
 
 int main() {
 #ifdef YJR_2333_TEST
@@ -79,6 +93,7 @@ int main() {
 	rep(x, 1, n) F :: link(0, x, 1);
 	rep(x, n + 1, n + n - 1) F :: link(x, n << 1, 1);
 	if(F :: runit() != n - 1) return puts("-1"), 0;
-	int p = 0;
-	return 0;
+	int p = 0; for(int i = F :: h[0]; i; i = F :: e[i].nxt) if(F :: e[i].w) p = F :: e[i].v;
+	dfs(p); rep(i, 1, n - 1) if(!ans[i].fi || !ans[i].se) return puts("-1"), 0;
+	rep(i, 1, n - 1) printf("%d %d\n", ans[i].fi, ans[i].se); return 0;
 }

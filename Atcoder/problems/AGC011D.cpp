@@ -31,8 +31,8 @@ const int N = 1e6 + 10;
 
 int n, K;
 char s[N];
-int ans[N];
-vec pot;
+int ans[N], tg;
+deque < int > pot;
 
 int main() {
 #ifdef YJR_2333_TEST
@@ -40,43 +40,25 @@ int main() {
 #endif
 	n = in, K = in; scanf("%s", s + 1);
 	rep(i, 1, n) 
-		if(i == n || s[i] != s[i + 1]) pot.eb(i);
-	if(s[1] == 'A') {
-		K--;
-		if(pot.front() == 1) pot.erase(pot.begin());
-		else pot.insert(pot.begin(), 1);
-	}
-	/*
-	int t = K + 1 >> 1;
-	chkmin(t, n + 10);
-	rep(i, 1, t) pot.eb(n + i);
-	vec tpot;
-	for(auto v : pot)
-		if(v - t > 0) tpot.eb(v - t);
-	pot = tpot;
-	for(auto v : pot) cerr << v << " "; cerr << endl;
-	if(~K & 1 && K) {
-		if(pot[0] != 1) pot.erase(pot.begin());
-		else pot.insert(pot.begin(), 1);
-	}
-	if(K & 1) ans[0] ^= 1;
-	*/ // fast
-	//for(auto v : pot) cerr << v << " "; cerr << endl;
-	rep(i, 1, K) {
+		if(i == n || s[i] != s[i + 1]) pot.push_back(i);
+	ans[0] = s[1] == 'A';
+	int cnt = 0;
+	while(K) {
+		cnt++; K--;
 		if(ans[0] != 1) {
-			vec tpot;
-			for(auto v : pot) if(v > 1) tpot.eb(v - 1);
-			tpot.eb(n);
-			if(pot[0] != 1) ans[0] ^= 1;
-			pot = tpot;
+			int lsz = pot.size(), ct = 0; tg++;
+			while(pot.front() <= tg) pot.pop_front(), ct++;
+			if(lsz & 1) pot.pop_back();
+			pot.push_back(n + tg);
+			if(!ct) ans[0] ^= 1;
 		} else {
-			if(pot.front() == 1) pot.erase(pot.begin());
-			else pot.insert(pot.begin(), 1);
+			if(pot.front() == 1 + tg) pot.pop_front();
+			else pot.push_front(1 + tg);
 			ans[0] ^= 1;
-		} //if(i % 100 == 0) cerr << "!" << i << endl;
-		//for(auto v : pot) cerr << v << " "; cerr << endl;
+		}
+		if(cnt >= 5 * n) K %= 2;
 	} //if(K & 1) ans[0] = 1;
-	for(auto v : pot) ans[v + 1] ^= 1;
+	while(pot.size()) { int v = pot.front() - tg; pot.pop_front(); ans[v + 1] ^= 1; }
 	rep(i, 1, n) ans[i] = ans[i - 1] ^ ans[i];
 	rep(i, 1, n) putchar(ans[i] ? 'A' : 'B'); puts("");
 	return 0;

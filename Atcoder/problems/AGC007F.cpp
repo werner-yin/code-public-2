@@ -61,13 +61,7 @@ int main() {
 	rep(i, 0, tpot.size() - 1) {
 		auto v = tpot[i];
 		if(v.fi == v.se) continue;
-		int l = 0, r = i - 1;
-		while(l <= r) {
-			int mid = l + r >> 1;
-			int ret = tpot[mid].fi + (i - mid);
-			if(ret <= v.se) l = mid + 1;
-			else r = mid - 1;
-		} chkmax(ans, i - l + 1);
+		while(tpot[i - ans].fi + ans > v.se) ans++;
 	}
 	cout << ans + 1 << endl;
 	return 0;
